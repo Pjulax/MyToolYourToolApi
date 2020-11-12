@@ -9,8 +9,9 @@ import pl.polsl.io.mytoolyourtool.domain.category.Category;
 public class CategoryDTO {
     private final Long id;
     private final String name;
+    private final Integer count;
 
     public static CategoryDTO fromModel(Category category){
-        return new CategoryDTO(category.getId(),category.getName());
+        return new CategoryDTO(category.getId(),category.getName(),5);
     }
 }
