@@ -23,7 +23,7 @@ public class OfferController {
     {
         offerService.addOffer(offer);
     }
-    @PostMapping(path = "/myoffers")
+    @PostMapping(path = "/myoffers", produces = "application/json")
     public Optional<List<Offer>> getMyOffers(@RequestBody Long id)
     {
        return offerService.getMyOffers(id);

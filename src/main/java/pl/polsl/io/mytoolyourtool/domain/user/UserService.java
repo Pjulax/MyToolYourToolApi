@@ -18,8 +18,7 @@ public class UserService {
     {
         if (null==user.getUsername() || null==user.getPassword() || user.getUsername().isEmpty() || user.getPassword().isEmpty())
         {
-            //JAKIS WYJON KURDE BELE TUTAJ BO NULL JAKIS
-            System.out.println("dupa");
+            //JAKIS WYJON BO NULE
             return;
         }
         if(!userRepository.existsByUsername(user.getUsername()))
