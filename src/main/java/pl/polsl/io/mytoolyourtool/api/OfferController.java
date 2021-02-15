@@ -1,15 +1,32 @@
 package pl.polsl.io.mytoolyourtool.api;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
+import pl.polsl.io.mytoolyourtool.domain.offer.OfferService;
 
-@Controller
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@AllArgsConstructor
 @RequestMapping(path = "/offers")
 public class OfferController {
 
-    @GetMapping
-    public String hello(){
-        return "Hello at mytoolyourtool offers api";
+    @Autowired
+    private final OfferService offerService;
+
+
+    @PostMapping(path = "/add-offer")
+    public void addOffer(@RequestBody Offer offer)
+    {
+        offerService.addOffer(offer);
     }
+    @PostMapping(path = "/myoffers")
+    public Optional<List<Offer>> getMyOffers(@RequestBody Long id)
+    {
+       return offerService.getMyOffers(id);
+    }
+
 }

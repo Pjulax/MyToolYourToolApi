@@ -1,15 +1,34 @@
 package pl.polsl.io.mytoolyourtool.api;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import pl.polsl.io.mytoolyourtool.domain.user.User;
+import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
-@Controller
+import java.util.List;
+
+
+@RestController
 @RequestMapping(path = "/users")
 public class UserController {
 
-    @GetMapping
-    public String hello(){
-        return "Hello at mytoolyourtool users api";
+    private final UserService userService;
+    @Autowired
+    public UserController(UserService userService)
+    {
+        this.userService=userService;
+    }
+
+
+    @GetMapping(produces = "application/json")
+    public List<User> getAll()
+    {
+        return userService.getAll();
+    }
+
+    @PostMapping
+    public void addUser(@RequestBody User user)
+    {
+    userService.addNewUser(user);
     }
 }
