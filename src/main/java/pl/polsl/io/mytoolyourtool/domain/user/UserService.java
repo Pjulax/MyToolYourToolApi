@@ -3,9 +3,11 @@ package pl.polsl.io.mytoolyourtool.domain.user;
 import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.polsl.io.mytoolyourtool.api.dto.LoginDTO;
 import pl.polsl.io.mytoolyourtool.utils.exception.ObjectExistsException;
 
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -35,5 +37,10 @@ public class UserService {
     public List<User> getAll() {
         List<User> users = userRepository.findAll();
         return users;
+    }
+
+    public String login(LoginDTO credentials) {
+        User user = userRepository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()).orElseThrow( () -> new EntityNotFoundException("User not found."));
+        return "SUPER.TOKEN.ID." + user.getId() + ".FIRSTNAME." + user.getFirstName() + ".LASTNAME." + user.getLastName();
     }
 }
