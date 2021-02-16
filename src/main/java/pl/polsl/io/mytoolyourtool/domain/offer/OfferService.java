@@ -28,4 +28,8 @@ public class OfferService {
     public Optional<List<Offer>> getMyOffers(Long id) {
         return offerRepository.findOffersByLenderId(id);
     }
+
+    public Optional<Offer> getSpecificOffer(Long offerId) {
+        return offerRepository.findById(offerId);
+    }
 }
