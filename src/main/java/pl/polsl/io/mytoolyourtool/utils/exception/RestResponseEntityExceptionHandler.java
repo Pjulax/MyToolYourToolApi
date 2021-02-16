@@ -16,6 +16,11 @@ public class RestResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ObjectDoesNotExistException.class)
+    protected ResponseEntity<Object> handleObjectDoesNotExistException(ObjectDoesNotExistException ex) {
+        return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
         return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
