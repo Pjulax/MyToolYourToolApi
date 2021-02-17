@@ -1,6 +1,6 @@
 package pl.polsl.io.mytoolyourtool.domain.category;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.CategoryDTO;
 import pl.polsl.io.mytoolyourtool.utils.exception.ObjectExistsException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;

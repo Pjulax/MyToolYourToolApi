@@ -1,16 +1,14 @@
 package pl.polsl.io.mytoolyourtool.domain.offer;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.utils.exception.ObjectDoesNotExistException;
-import pl.polsl.io.mytoolyourtool.utils.exception.ObjectExistsException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OfferService {
 
     private final OfferRepository offerRepository;

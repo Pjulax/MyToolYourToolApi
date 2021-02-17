@@ -1,7 +1,6 @@
 package pl.polsl.io.mytoolyourtool.domain.reservation;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
@@ -10,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ReservationService {
 
-    private ReservationRepository reservationRepository;
-    private UserService userService;
+    private final ReservationRepository reservationRepository;
+    private final UserService userService;
 
     public Optional<List<Reservation>> getMyLendingCart() {
         User user = userService.whoami();
