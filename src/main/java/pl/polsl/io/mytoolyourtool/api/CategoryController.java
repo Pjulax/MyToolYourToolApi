@@ -3,8 +3,10 @@ package pl.polsl.io.mytoolyourtool.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.CategoryDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.OfferDTO;
 import pl.polsl.io.mytoolyourtool.domain.category.CategoryService;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,11 @@ public class CategoryController {
     @PostMapping
     public void addNew(@RequestBody CategoryDTO category){
         categoryService.addNewCategory(category.getName());
+    }
+
+    @GetMapping(path = "/{id}")
+    public List<OfferDTO> getCategoryOffers(@PathVariable("id") Long categoryId) {
+        return categoryService.getCategoryOffers(categoryId);
     }
 
 }
