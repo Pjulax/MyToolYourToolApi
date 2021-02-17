@@ -14,7 +14,6 @@ import java.util.Optional;
 @RequestMapping(path = "/reservations")
 public class ReservationController {
 
-    @Autowired
     private final ReservationService reservationService;
 
     @GetMapping
@@ -23,15 +22,15 @@ public class ReservationController {
     }
 
     @PostMapping(path="/my-loans", produces = "application/json")
-    public Optional<List<Reservation>> getMyLendingCart(@RequestBody Long lenderId )
+    public Optional<List<Reservation>> getMyLendingCart()
     {
-        return reservationService.getMyLendingCart(lenderId);
+        return reservationService.getMyLendingCart();
     }
 
     @PostMapping(path="/my-reservations", produces="application/json")
-    public Optional<List<Reservation>> getMyBorrowingCart(@RequestBody Long borrowerId)
+    public Optional<List<Reservation>> getMyBorrowingCart()
     {
-        return reservationService.getMyBorrowingCart(borrowerId);
+        return reservationService.getMyBorrowingCart();
     }
 
     @PostMapping(path="/add-reservation")

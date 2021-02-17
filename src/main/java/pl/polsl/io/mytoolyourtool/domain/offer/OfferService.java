@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OfferService {
-    @Autowired
+
     private final OfferRepository offerRepository;
 
     public void addOffer(Offer offer) {
