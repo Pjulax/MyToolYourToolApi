@@ -1,6 +1,7 @@
 package pl.polsl.io.mytoolyourtool.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.LoginDTO;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
