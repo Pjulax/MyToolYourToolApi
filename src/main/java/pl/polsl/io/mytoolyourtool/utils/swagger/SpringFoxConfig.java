@@ -16,7 +16,6 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {

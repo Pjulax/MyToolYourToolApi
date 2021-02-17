@@ -2,6 +2,7 @@ package pl.polsl.io.mytoolyourtool.utils.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -27,4 +28,10 @@ public class RestResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
         return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    protected ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }
