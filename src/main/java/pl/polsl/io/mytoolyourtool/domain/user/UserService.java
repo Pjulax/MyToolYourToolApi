@@ -30,19 +30,19 @@ public class UserService {
     }
 
     public String login(LoginDTO credentials) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
-        return "Bearer " + jwtTokenProvider.createToken(credentials.getUsername(), userRepository.findByUsername(credentials.getUsername()).get().getRoles());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
+        return "Bearer " + jwtTokenProvider.createToken(credentials.getEmail(), userRepository.findByEmail(credentials.getEmail()).get().getRoles());
     }
 
     public User createUser(SignUpDTO signUpDTO) {
-        if(userRepository.findByUsername(signUpDTO.getUsername()).isPresent())
-            throw new ObjectExistsException("User with username '" + signUpDTO.getUsername() + "' already exists");
+        if (userRepository.findByEmail(signUpDTO.getEmail()).isPresent())
+            throw new ObjectExistsException("User with email '" + signUpDTO.getEmail() + "' already exists");
 
         LinkedList<Role> roles = new LinkedList<>();
         roles.add(Role.ROLE_CLIENT);
 
         User user = User.builder()
-                .username(signUpDTO.getUsername())
+                .email(signUpDTO.getEmail())
                 .password(passwordEncoder.encode(signUpDTO.getPassword()))
                 .firstName(signUpDTO.getFirstName())
                 .lastName(signUpDTO.getLastName())
@@ -53,15 +53,15 @@ public class UserService {
 
     public UserDetailsDTO getUserDetails() {
         User user = whoami();
-        return new UserDetailsDTO(user.getUsername(), user.getFirstName(), user.getLastName());
+        return new UserDetailsDTO(user.getEmail(), user.getFirstName(), user.getLastName());
     }
 
-    public User whoami(){
+    public User whoami() {
         return search(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    public User search(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User with that Username doesn't exist"));
+    public User search(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with email '" + email + "' doesn't exist"));
     }
 
 }
