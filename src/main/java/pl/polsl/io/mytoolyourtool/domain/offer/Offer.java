@@ -1,9 +1,6 @@
 package pl.polsl.io.mytoolyourtool.domain.offer;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Offer {
@@ -20,6 +18,8 @@ public class Offer {
     private Long id;
     private String toolName;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private ToolQuality toolQuality;
     @OneToOne
     private User lender;
 
