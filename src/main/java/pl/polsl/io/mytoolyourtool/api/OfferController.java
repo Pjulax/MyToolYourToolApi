@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
 import pl.polsl.io.mytoolyourtool.domain.offer.OfferService;
+import pl.polsl.io.mytoolyourtool.domain.user.User;
+import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +16,8 @@ import java.util.Optional;
 @RequestMapping(path = "/offers")
 public class OfferController {
 
-    @Autowired
     private final OfferService offerService;
+    private final UserService userService;
 
 
     @PostMapping(path = "/add-offer")
@@ -24,9 +26,10 @@ public class OfferController {
         offerService.addOffer(offer);
     }
     @PostMapping(path = "/myoffers", produces = "application/json")
-    public Optional<List<Offer>> getMyOffers(@RequestBody Long lenderId)
+    public Optional<List<Offer>> getMyOffers()
     {
-       return offerService.getMyOffers(lenderId);
+        User user = userService.whoami();
+       return offerService.getMyOffers(user.getId());
     }
 
     @PostMapping(path="{offerId}", produces = "application/json")
