@@ -33,7 +33,7 @@ public class UserService {
 
     public String login(LoginDTO credentials) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
-        return jwtTokenProvider.createToken(credentials.getUsername(), userRepository.findByUsername(credentials.getUsername()).get().getRoles());
+        return "Bearer " + jwtTokenProvider.createToken(credentials.getUsername(), userRepository.findByUsername(credentials.getUsername()).get().getRoles());
     }
 
     public User createUser(SignUpDTO signUpDTO) {
