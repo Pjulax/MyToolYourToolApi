@@ -1,6 +1,5 @@
 package pl.polsl.io.mytoolyourtool.utils.exception;
 
-import io.swagger.models.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,6 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
 
+/**
+ * Exception handler for all controller based situations when exception was threw and needs to be catched
+ */
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler {
 
