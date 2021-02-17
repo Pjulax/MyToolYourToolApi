@@ -20,6 +20,6 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 }

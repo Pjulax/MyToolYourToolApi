@@ -32,7 +32,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .headers().frameOptions().disable()
         // Set all entries without and with authorization here
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/users/login").permitAll()
+                .antMatchers("/users/signup").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/swagger-resources").permitAll()
+                .antMatchers("/swagger-resources/configuration/ui").permitAll()
+                .antMatchers("/swagger-resources/configuration/security").permitAll()
+                .antMatchers("/h2-console").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();
         // Set session management to Stateless -> REST obligatory
