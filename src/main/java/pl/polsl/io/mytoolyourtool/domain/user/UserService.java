@@ -15,14 +15,12 @@ import pl.polsl.io.mytoolyourtool.utils.security.jwt.JwtTokenProvider;
 import javax.persistence.EntityNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
@@ -40,9 +38,8 @@ public class UserService {
         if(userRepository.findByUsername(signUpDTO.getUsername()).isPresent())
             throw new ObjectExistsException("User with username '" + signUpDTO.getUsername() + "' already exists");
 
-        Role role = roleRepository.findByName("ROLE_USER").orElse(roleRepository.save(new Role("ROLE_USER")));
         LinkedList<Role> roles = new LinkedList<>();
-        roles.add(role);
+        roles.add(Role.ROLE_CLIENT);
 
         User user = User.builder()
                 .username(signUpDTO.getUsername())
