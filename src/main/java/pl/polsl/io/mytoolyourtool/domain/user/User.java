@@ -3,11 +3,13 @@ package pl.polsl.io.mytoolyourtool.domain.user;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="client")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -18,4 +20,6 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    @OneToMany
+    private List<Role> roles;
 }
