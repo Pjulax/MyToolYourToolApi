@@ -1,9 +1,8 @@
 package pl.polsl.io.mytoolyourtool.api;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReviewService;
 
@@ -19,5 +18,11 @@ public class ReviewController {
     public List<ReviewDTO> getReviews()
     {
         return reviewService.getReviews();
+    }
+
+    @PostMapping
+    public void addReview(@RequestBody AddReviewDTO review)
+    {
+        reviewService.addReview(review.getOpinion(),review.getRating(),review.getReviewedUserId());
     }
 }
