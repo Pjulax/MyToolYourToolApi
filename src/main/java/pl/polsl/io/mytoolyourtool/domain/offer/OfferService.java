@@ -6,7 +6,6 @@ import pl.polsl.io.mytoolyourtool.api.dto.AddOfferDTO;
 import pl.polsl.io.mytoolyourtool.domain.category.Category;
 import pl.polsl.io.mytoolyourtool.domain.category.CategoryRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
-import pl.polsl.io.mytoolyourtool.utils.exception.ObjectDoesNotExistException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -44,8 +43,14 @@ public class OfferService {
 
     public Optional<Offer> getSpecificOffer(Long offerId) {
         if (offerRepository.findById(offerId).isEmpty()) {
-            throw new ObjectDoesNotExistException("Offer with id:" + offerId + " does not exist.");
+            throw new EntityNotFoundException("Offer with id:" + offerId + " does not exist.");
         }
         return offerRepository.findById(offerId);
+    }
+
+    public void deleteOffer(Long offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(()-> new EntityNotFoundException("Offer with id:" + offerId + " does not exist."));
+        offerRepository.delete(offer);
     }
 }

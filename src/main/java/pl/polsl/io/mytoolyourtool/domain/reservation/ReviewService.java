@@ -2,12 +2,10 @@ package pl.polsl.io.mytoolyourtool.domain.reservation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
-import pl.polsl.io.mytoolyourtool.utils.exception.ObjectDoesNotExistException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -24,7 +22,7 @@ public class ReviewService {
     public List<ReviewDTO> getReviews() {
         User user = userService.whoami();
         List<Review> reviews = reviewRepository.findByReviewedUserId(user.getId())
-                .orElseThrow(()-> new ObjectDoesNotExistException("User has no reviews."));
+                .orElseThrow(()-> new EntityNotFoundException("User has no reviews."));
         return reviews.stream().map(ReviewDTO::fromDomain).collect(Collectors.toList());
     }
 

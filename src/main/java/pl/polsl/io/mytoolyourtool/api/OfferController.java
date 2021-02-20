@@ -22,6 +22,9 @@ public class OfferController {
     private final OfferService offerService;
     private final UserService userService;
 
+    @DeleteMapping(path = "/delete-offer/{id}")
+    public void deleteOffer(@PathVariable("id")Long offerId){
+        offerService.deleteOffer(offerId);}
 
     @PostMapping(path = "/add-offer")
     public void addOffer(@RequestBody AddOfferDTO addOfferDTO) {
