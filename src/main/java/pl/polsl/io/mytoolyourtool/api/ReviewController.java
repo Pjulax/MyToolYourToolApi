@@ -21,8 +21,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    public void addReview(@RequestBody AddReviewDTO review)
+    public void addReview(@RequestBody AddReviewDTO addReviewDTO)
     {
-        reviewService.addReview(review.getOpinion(),review.getRating(),review.getReviewedUserId());
+        reviewService.addReview(addReviewDTO);
     }
 }

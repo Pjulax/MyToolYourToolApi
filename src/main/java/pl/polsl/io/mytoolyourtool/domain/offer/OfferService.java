@@ -3,13 +3,16 @@ package pl.polsl.io.mytoolyourtool.domain.offer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.AddOfferDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.OfferDTO;
 import pl.polsl.io.mytoolyourtool.domain.category.Category;
 import pl.polsl.io.mytoolyourtool.domain.category.CategoryRepository;
+import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -37,20 +40,27 @@ public class OfferService {
         }
     }
 
-    public List<Offer> getMyOffers(Long id) {
-        return offerRepository.findOffersByLenderId(id);
+    public List<OfferDTO> getMyOffers() {
+        User user = userService.whoami();
+        List<Offer> myOffers= offerRepository.findOffersByLenderId(user.getId());
+
+        if(myOffers.isEmpty())
+        {
+            throw new EntityNotFoundException("User has no offers.");
+        }
+        return myOffers.stream().map(OfferDTO::fromDomain).collect(Collectors.toList());
     }
 
-    public Optional<Offer> getSpecificOffer(Long offerId) {
-        if (offerRepository.findById(offerId).isEmpty()) {
+    public OfferDTO getSpecificOffer(Long offerId) {
+        Optional<Offer> optionalOffer = offerRepository.findById(offerId);
+        if (optionalOffer.isEmpty()) {
             throw new EntityNotFoundException("Offer with id:" + offerId + " does not exist.");
         }
-        return offerRepository.findById(offerId);
+        Offer offer = optionalOffer.get();
+
+        return new OfferDTO(offer.getId(),offer.getToolName(),offer.getDescription(),offer.getToolQuality());
+
     }
 
-    public void deleteOffer(Long offerId) {
-        Offer offer = offerRepository.findById(offerId)
-                .orElseThrow(()-> new EntityNotFoundException("Offer with id:" + offerId + " does not exist."));
-        offerRepository.delete(offer);
-    }
+
 }

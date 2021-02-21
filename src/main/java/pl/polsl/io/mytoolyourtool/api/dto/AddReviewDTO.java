@@ -8,5 +8,5 @@ import lombok.Getter;
 public class AddReviewDTO {
     private final String opinion;
     private final Float rating;
-    private final Long reviewedUserId;
+    private final Long reservationId;
 }
