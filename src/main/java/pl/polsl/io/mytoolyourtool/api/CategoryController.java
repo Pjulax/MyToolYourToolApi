@@ -26,9 +26,9 @@ public class CategoryController {
         return categoryService.getAll();
     }
 
-    @PostMapping
-    public void addNew(@RequestBody CategoryDTO category){
-        categoryService.addNewCategory(category.getName());
+    @PostMapping(path = "/add-new")
+    public void addNew(@RequestBody String name){
+        categoryService.addNewCategory(name);
     }
 
     @GetMapping(path = "/{id}")

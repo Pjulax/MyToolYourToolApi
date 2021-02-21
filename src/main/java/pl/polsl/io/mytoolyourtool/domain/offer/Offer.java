@@ -20,7 +20,7 @@ public class Offer {
     private String description;
     @Enumerated(EnumType.STRING)
     private ToolQuality toolQuality;
-    @OneToOne
+    @ManyToOne
     private User lender;
 
 }

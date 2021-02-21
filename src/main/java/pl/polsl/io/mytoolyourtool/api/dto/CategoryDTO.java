@@ -12,6 +12,7 @@ public class CategoryDTO {
     private final Integer count;
 
     public static CategoryDTO fromModel(Category category){
-        return new CategoryDTO(category.getId(),category.getName(),5);
+        Integer count = category.getOffers().size();
+        return new CategoryDTO(category.getId(),category.getName(),count);
     }
 }
