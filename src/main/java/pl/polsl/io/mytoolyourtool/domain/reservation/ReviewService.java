@@ -21,7 +21,7 @@ public class ReviewService {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public List<ReviewDTO> getReviews() {
+    public List<ReviewDTO> getMyReviews() {
         User user = userService.whoami();
         List<Review> reviews = reviewRepository.findByReviewedUserId(user.getId())
                 .orElseThrow(()-> new EntityNotFoundException("User has no reviews."));

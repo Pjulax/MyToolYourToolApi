@@ -15,9 +15,9 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping(produces = "application/json")
-    public List<ReviewDTO> getReviews()
+    public List<ReviewDTO> getMyReviews()
     {
-        return reviewService.getReviews();
+        return reviewService.getMyReviews();
     }
 
     @PostMapping
