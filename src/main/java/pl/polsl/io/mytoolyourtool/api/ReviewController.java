@@ -3,6 +3,7 @@ package pl.polsl.io.mytoolyourtool.api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.AverageRatingDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
 import pl.polsl.io.mytoolyourtool.domain.review.ReviewService;
 
@@ -21,7 +22,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/score", produces = "application/json")
-    public Double calculateScore(){ return reviewService.calculateScore();}
+    public AverageRatingDTO calculateScore(){ return reviewService.calculateScore();}
 
     @PostMapping
     public void addReview(@RequestBody AddReviewDTO addReviewDTO)
