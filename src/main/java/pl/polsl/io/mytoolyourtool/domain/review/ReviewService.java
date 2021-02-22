@@ -69,15 +69,21 @@ public class ReviewService {
         }
     }
 
-    public AverageRatingDTO calculateScore() {
-        User user = userService.whoami();
-        Optional<List<Review>> myOptionalReviews = reviewRepository.findByReviewedUserId(user.getId());
+    public Double calculateUsersAverageRating(Long userId)
+    {
+        Optional<List<Review>> myOptionalReviews = reviewRepository.findByReviewedUserId(userId);
         if(myOptionalReviews.isEmpty())
         {
-            throw new EntityNotFoundException("User with id: "+user.getId()+" has no reviews.");
+            return null;
         }
         List<Review>myReviews = myOptionalReviews.get();
         Double average =  myReviews.stream().map(Review::getRating).mapToDouble(Double::doubleValue).average().getAsDouble();
+        return average;
+    }
+
+    public AverageRatingDTO calculateMyScore() {
+        User user = userService.whoami();
+        Double average = calculateUsersAverageRating(user.getId());
         return new AverageRatingDTO(average);
     }
 }

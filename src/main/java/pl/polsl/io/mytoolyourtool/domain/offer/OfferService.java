@@ -3,9 +3,11 @@ package pl.polsl.io.mytoolyourtool.domain.offer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.AddOfferDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.GetSpecificOfferDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.OfferDTO;
 import pl.polsl.io.mytoolyourtool.domain.category.Category;
 import pl.polsl.io.mytoolyourtool.domain.category.CategoryRepository;
+import pl.polsl.io.mytoolyourtool.domain.review.ReviewService;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
@@ -21,6 +23,7 @@ public class OfferService {
 
     private final OfferRepository offerRepository;
     private final CategoryRepository categoryRepository;
+    private final ReviewService reviewService;
     private final UserService userService;
 
     public void addOffer(AddOfferDTO addOfferDTO) {
@@ -52,14 +55,17 @@ public class OfferService {
         return myOffers.stream().map(OfferDTO::fromDomain).collect(Collectors.toList());
     }
 
-    public OfferDTO getSpecificOffer(Long offerId) {
+    public GetSpecificOfferDTO getSpecificOffer(Long offerId) {
         Optional<Offer> optionalOffer = offerRepository.findById(offerId);
         if (optionalOffer.isEmpty()) {
             throw new EntityNotFoundException("Offer with id:" + offerId + " does not exist.");
         }
         Offer offer = optionalOffer.get();
 
-        return new OfferDTO(offer.getId(),offer.getToolName(),offer.getDescription(),offer.getToolQuality());
+        Double averageRating= reviewService.calculateUsersAverageRating(offer.getLender().getId());
+        String lendersName = offer.getLender().getFirstName()+" "+offer.getLender().getLastName();
+
+        return new GetSpecificOfferDTO(offer.getId(),offer.getToolName(),offer.getDescription(),offer.getToolQuality(),averageRating,lendersName);
 
     }
 

@@ -3,6 +3,7 @@ package pl.polsl.io.mytoolyourtool.api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.AddOfferDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.GetSpecificOfferDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.OfferDTO;
 import pl.polsl.io.mytoolyourtool.domain.offer.OfferService;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
@@ -28,7 +29,7 @@ public class OfferController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public OfferDTO getSpecificOffer(@PathVariable("id") Long offerId) {
+    public GetSpecificOfferDTO getSpecificOffer(@PathVariable("id") Long offerId) {
         return offerService.getSpecificOffer(offerId);
     }
     @GetMapping(path="/tool-quality")
