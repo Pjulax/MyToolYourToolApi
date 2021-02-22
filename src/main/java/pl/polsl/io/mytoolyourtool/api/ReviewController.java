@@ -22,7 +22,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/score", produces = "application/json")
-    public AverageRatingDTO calculateScore(){ return reviewService.calculateScore();}
+    public AverageRatingDTO calculateMyScore(){ return reviewService.calculateMyScore();}
 
     @PostMapping
     public void addReview(@RequestBody AddReviewDTO addReviewDTO)
