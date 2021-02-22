@@ -78,6 +78,7 @@ public class ReviewService {
         }
         List<Review>myReviews = myOptionalReviews.get();
         Double average =  myReviews.stream().map(Review::getRating).mapToDouble(Double::doubleValue).average().getAsDouble();
+        average = (double) (Math.round(average * 2))/2;
         return average;
     }
 
