@@ -10,6 +10,7 @@ import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,4 +64,7 @@ public class OfferService {
     }
 
 
+    public List<String> getToolQualities() {
+        return Arrays.stream(ToolQuality.values()).map(Enum::name).collect(Collectors.toList());
+    }
 }

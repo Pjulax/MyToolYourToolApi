@@ -31,4 +31,10 @@ public class OfferController {
     public OfferDTO getSpecificOffer(@PathVariable("id") Long offerId) {
         return offerService.getSpecificOffer(offerId);
     }
+    @GetMapping(path="/tool-quality")
+    public List<String> getToolQualities()
+    {
+        return offerService.getToolQualities();
+    }
+
 }
