@@ -1,7 +1,6 @@
-package pl.polsl.io.mytoolyourtool.domain.offer;
+package pl.polsl.io.mytoolyourtool.domain.reservation;
 
 import lombok.*;
-
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 
 import javax.persistence.*;
@@ -12,15 +11,14 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Offer {
+public class Review {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
-    private String toolName;
-    private String description;
-    @Enumerated(EnumType.STRING)
-    private ToolQuality toolQuality;
+    private String opinion;
+    private Double rating;
     @ManyToOne
-    private User lender;
-
+    private User reviewer;
+    @ManyToOne
+    private User reviewedUser;
 }

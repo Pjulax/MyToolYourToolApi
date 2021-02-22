@@ -3,6 +3,7 @@ package pl.polsl.io.mytoolyourtool.api;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.polsl.io.mytoolyourtool.api.dto.AddReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationService;
 
@@ -21,22 +22,22 @@ public class ReservationController {
         return "Hello at mytoolyourtool reservations api";
     }
 
-    @PostMapping(path="/my-loans", produces = "application/json")
+    @GetMapping(path="/my-loans", produces = "application/json")
     public Optional<List<Reservation>> getMyLendingCart()
     {
         return reservationService.getMyLendingCart();
     }
 
-    @PostMapping(path="/my-reservations", produces="application/json")
+    @GetMapping(path="/my-reservations", produces="application/json")
     public Optional<List<Reservation>> getMyBorrowingCart()
     {
         return reservationService.getMyBorrowingCart();
     }
 
     @PostMapping(path="/add-reservation")
-    public void addReservation(@RequestBody Reservation reservation)
+    public void addReservation(@RequestBody AddReservationDTO addReservationDTO)
     {
-        reservationService.addReservation(reservation);
+        reservationService.addReservation(addReservationDTO);
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.CategoryDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.OfferDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.ResponseTextDTO;
 import pl.polsl.io.mytoolyourtool.domain.category.CategoryService;
 
 import javax.websocket.server.PathParam;
@@ -26,9 +27,9 @@ public class CategoryController {
         return categoryService.getAll();
     }
 
-    @PostMapping
-    public void addNew(@RequestBody CategoryDTO category){
-        categoryService.addNewCategory(category.getName());
+    @PostMapping(path = "/add-new")
+    public void addNew(@RequestBody ResponseTextDTO text){
+        categoryService.addNewCategory(text.getText());
     }
 
     @GetMapping(path = "/{id}")
