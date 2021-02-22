@@ -67,4 +67,15 @@ public class ReviewService {
             reviewRepository.save(newReview);
         }
     }
+
+    public Double calculateScore() {
+        User user = userService.whoami();
+        Optional<List<Review>> myOptionalReviews = reviewRepository.findByReviewedUserId(user.getId());
+        if(myOptionalReviews.isEmpty())
+        {
+            throw new EntityNotFoundException("User with id: "+user.getId()+" has no reviews.");
+        }
+        List<Review>myReviews = myOptionalReviews.get();
+        return myReviews.stream().map(Review::getRating).mapToDouble(Double::doubleValue).average().getAsDouble();
+    }
 }

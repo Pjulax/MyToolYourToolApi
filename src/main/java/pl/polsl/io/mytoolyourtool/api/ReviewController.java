@@ -20,6 +20,9 @@ public class ReviewController {
         return reviewService.getMyReviews();
     }
 
+    @GetMapping(path = "/score", produces = "application/json")
+    public Double calculateScore(){ return reviewService.calculateScore();}
+
     @PostMapping
     public void addReview(@RequestBody AddReviewDTO addReviewDTO)
     {
