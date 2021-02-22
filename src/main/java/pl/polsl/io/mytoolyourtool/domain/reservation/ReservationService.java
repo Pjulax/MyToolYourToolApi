@@ -36,8 +36,7 @@ public class ReservationService {
                 || addReservationDTO.getOfferId() == null) {
             throw new IllegalArgumentException("Provided bad data for new reservation.");
         }
-            else
-            {
+            else {
                 User borrower = userService.whoami();
                 Optional<Offer> offer = offerRepository.findById(addReservationDTO.getOfferId());
                 if(offer.isPresent())

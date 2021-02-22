@@ -3,6 +3,7 @@ package pl.polsl.io.mytoolyourtool.domain.review;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.AverageRatingDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationRepository;
@@ -66,5 +67,17 @@ public class ReviewService {
                     .build();
             reviewRepository.save(newReview);
         }
+    }
+
+    public AverageRatingDTO calculateScore() {
+        User user = userService.whoami();
+        Optional<List<Review>> myOptionalReviews = reviewRepository.findByReviewedUserId(user.getId());
+        if(myOptionalReviews.isEmpty())
+        {
+            throw new EntityNotFoundException("User with id: "+user.getId()+" has no reviews.");
+        }
+        List<Review>myReviews = myOptionalReviews.get();
+        Double average =  myReviews.stream().map(Review::getRating).mapToDouble(Double::doubleValue).average().getAsDouble();
+        return new AverageRatingDTO(average);
     }
 }
