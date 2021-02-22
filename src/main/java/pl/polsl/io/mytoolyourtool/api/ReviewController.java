@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
-import pl.polsl.io.mytoolyourtool.domain.reservation.ReviewService;
+import pl.polsl.io.mytoolyourtool.domain.review.ReviewService;
 
 import java.util.List;
 

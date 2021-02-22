@@ -1,4 +1,4 @@
-package pl.polsl.io.mytoolyourtool.domain.reservation;
+package pl.polsl.io.mytoolyourtool.domain.review;
 
 import lombok.*;
 import pl.polsl.io.mytoolyourtool.domain.user.User;

@@ -1,9 +1,11 @@
-package pl.polsl.io.mytoolyourtool.domain.reservation;
+package pl.polsl.io.mytoolyourtool.domain.review;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
+import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
+import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;

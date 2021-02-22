@@ -1,8 +1,8 @@
-package pl.polsl.io.mytoolyourtool.domain.reservation;
+package pl.polsl.io.mytoolyourtool.domain.review;
 
-import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import pl.polsl.io.mytoolyourtool.domain.review.Review;
 
 import java.util.List;
 import java.util.Optional;
