@@ -8,7 +8,7 @@ import pl.polsl.io.mytoolyourtool.domain.reservation.Review;
 @AllArgsConstructor
 public class ReviewDTO {
     private final String opinion;
-    private final Float rating;
+    private final Double rating;
 
     public static ReviewDTO fromDomain(Review review){
         return new ReviewDTO(review.getOpinion(),review.getRating());

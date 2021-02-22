@@ -16,7 +16,7 @@ public class Review {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
     private String opinion;
-    private Float rating;
+    private Double rating;
     @ManyToOne
     private User reviewer;
     @ManyToOne

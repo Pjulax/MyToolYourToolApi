@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AddReviewDTO {
     private final String opinion;
-    private final Float rating;
+    private final Double rating;
     private final Long reservationId;
 }
