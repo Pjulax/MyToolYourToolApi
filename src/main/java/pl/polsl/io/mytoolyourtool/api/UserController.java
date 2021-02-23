@@ -36,4 +36,9 @@ public class UserController {
     public UserDetailsDTO getUserDetails(){
         return userService.getUserDetails();
     }
+
+    @DeleteMapping("/delete-me")
+    public void deleteMyAccount() {
+        userService.deleteUserAccount();
+    }
 }

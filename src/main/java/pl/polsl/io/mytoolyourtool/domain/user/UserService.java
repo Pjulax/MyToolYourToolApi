@@ -75,4 +75,15 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with email '" + email + "' doesn't exist"));
     }
 
+    public void deleteUserAccount() {
+        /*
+        Wszystkie wypożyczenia muszą być zakończone
+        Wszystkie rezerwacje muszą być zakończone
+        usuń oceny -> powiązane z userami -> ja reviewedUser -> delete, -> ja reviewer -> modyfikuj na usera "Deleted User"
+        usuń ofertę z listy w kategorii -> category zawiera offers
+        usuń oferty -> powiązane z userem
+        usuń użytkownika, jego oferty, jego oceny, jego rezerwacje
+        */
+
+    }
 }
