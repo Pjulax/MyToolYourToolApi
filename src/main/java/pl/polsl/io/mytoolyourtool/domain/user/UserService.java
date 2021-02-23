@@ -34,7 +34,18 @@ public class UserService {
         return "Bearer " + jwtTokenProvider.createToken(credentials.getEmail(), userRepository.findByEmail(credentials.getEmail()).get().getRoles());
     }
 
-    public User createUser(SignUpDTO signUpDTO) {
+    public void createUser(SignUpDTO signUpDTO) {
+        if (null == signUpDTO.getEmail() || signUpDTO.getEmail().isEmpty()
+                || !signUpDTO.getEmail().matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"))
+            throw new IllegalArgumentException("Email not provided or in bad format");
+
+        if (null == signUpDTO.getPassword() || signUpDTO.getPassword().length() < 3)
+            throw new IllegalArgumentException("Password has less than 3 characters");
+
+        if (null == signUpDTO.getFirstName() || null == signUpDTO.getLastName()
+                || signUpDTO.getFirstName().equals("") || signUpDTO.getLastName().equals(""))
+            throw new IllegalArgumentException("You need to provide your firstname and lastname");
+
         if (userRepository.findByEmail(signUpDTO.getEmail()).isPresent())
             throw new ObjectExistsException("User with email '" + signUpDTO.getEmail() + "' already exists");
 
@@ -48,7 +59,7 @@ public class UserService {
                 .lastName(signUpDTO.getLastName())
                 .roles(roles)
                 .build();
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public UserDetailsDTO getUserDetails() {

@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public User createUser(@RequestBody SignUpDTO signUpDTO){
-        return userService.createUser(signUpDTO);
+    public void createUser(@RequestBody SignUpDTO signUpDTO){
+        userService.createUser(signUpDTO);
     }
 
     @GetMapping("/me")
