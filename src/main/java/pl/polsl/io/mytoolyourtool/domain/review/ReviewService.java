@@ -39,25 +39,22 @@ public class ReviewService {
         }
         else {
             User reviewer = userService.whoami();
-            Optional<Reservation> optionalReviewedReservation = Optional.ofNullable(reservationRepository.findById(addReviewDTO.getReservationId())
-                    .orElseThrow(() -> new EntityNotFoundException("Reservation with id: " + addReviewDTO.getReservationId() + " does not exist.")));
-            Reservation reviewedReservation = optionalReviewedReservation.get();
+            Reservation reviewedReservation = reservationRepository.findById(addReviewDTO.getReservationId())
+                    .orElseThrow(() -> new EntityNotFoundException("Reservation with id: " + addReviewDTO.getReservationId() + " does not exist."));
 
-            Optional<User> optionalReviewedUser;
+            User reviewedUser;
             Long reviewedUserId;
             if (reviewer.getId().equals(reviewedReservation.getBorrower().getId())) {
                 //reviewer is  borrower
                 reviewedUserId = reviewedReservation.getOffer().getLender().getId();
-                optionalReviewedUser = Optional.ofNullable((userRepository.findById(reviewedUserId)
-                        .orElseThrow(() -> new EntityNotFoundException("User with id: " + reviewedUserId + " does not exist."))));
+                reviewedUser = userRepository.findById(reviewedUserId)
+                                            .orElseThrow(() -> new EntityNotFoundException("User with id: " + reviewedUserId + " does not exist."));
             } else {
                 //reviewer is  lender
                 reviewedUserId = reviewedReservation.getBorrower().getId();
-                optionalReviewedUser = Optional.ofNullable((userRepository.findById(reviewedReservation.getBorrower().getId())
-                        .orElseThrow(() -> new EntityNotFoundException("User with id: " + reviewedUserId + " does not exist."))));
+                reviewedUser = userRepository.findById(reviewedReservation.getBorrower().getId())
+                                            .orElseThrow(() -> new EntityNotFoundException("User with id: " + reviewedUserId + " does not exist."));
             }
-
-            User reviewedUser = optionalReviewedUser.get();
 
             Review newReview = Review.builder()
                     .opinion(addReviewDTO.getOpinion())

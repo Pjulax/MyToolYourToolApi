@@ -23,4 +23,9 @@ public class Reservation {
     private User borrower;
     @ManyToOne
     private Offer offer;
+
+     /* zastanawiam się jak określić stany modeli
+    private boolean isChoosen
+    private boolean isFinished
+     */
 }

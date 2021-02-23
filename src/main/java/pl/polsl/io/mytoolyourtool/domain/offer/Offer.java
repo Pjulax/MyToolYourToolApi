@@ -23,4 +23,10 @@ public class Offer {
     @ManyToOne
     private User lender;
 
+    /* zastanawiam się jak określić stany modeli
+    private boolean lenderReviewed
+    private boolean borrowerReviewed
+    private boolean hasReservationChoosen
+    private boolean isReturned
+     */
 }
