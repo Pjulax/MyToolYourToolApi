@@ -2,7 +2,6 @@ package pl.polsl.io.mytoolyourtool.domain.reservation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.polsl.io.mytoolyourtool.api.dto.ChooseReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
 import pl.polsl.io.mytoolyourtool.domain.offer.OfferRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
@@ -54,8 +53,8 @@ public class ReservationService {
             }
     }
 
-    public void chooseReservation(ChooseReservationDTO chooseReservationDTO) {
-        Reservation chosenReservation = reservationRepository.findById(chooseReservationDTO.getReservationId()).orElseThrow(() -> new IllegalArgumentException("Reservation with id:" + chooseReservationDTO.getReservationId() + " does not exist."));
+    public void chooseReservation(Long reservationId) {
+        Reservation chosenReservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("Reservation with id:" + reservationId + " does not exist."));
         chosenReservation.setChosen(true);
         chosenReservation.getOffer().setReservationChosen(true);
         Offer offer = offerRepository.save(chosenReservation.getOffer());

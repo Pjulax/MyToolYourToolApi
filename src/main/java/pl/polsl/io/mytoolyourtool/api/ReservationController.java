@@ -2,7 +2,6 @@ package pl.polsl.io.mytoolyourtool.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.io.mytoolyourtool.api.dto.ChooseReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationService;
 
@@ -38,8 +37,8 @@ public class ReservationController {
         reservationService.addReservation(offerId);
     }
 
-    @PostMapping(path="/choose-reservation")
-    public void chooseReservation(@RequestBody ChooseReservationDTO chooseReservationDTO) {
-        reservationService.chooseReservation(chooseReservationDTO);
+    @PostMapping(path="/choose-reservation/{id}")
+    public void chooseReservation(@PathVariable("id") Long reservationId) {
+        reservationService.chooseReservation(reservationId);
     }
 }
