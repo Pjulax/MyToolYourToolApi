@@ -50,7 +50,7 @@ public class OfferService {
 
     public List<Offer> getMyOffersRaw() {
         User user = userService.whoami();
-        return offerRepository.findByLender_IdAndBorrowerReviewedIsTrueAndLenderReviewedIsTrue(user.getId());
+        return offerRepository.findByLender_IdAndReservationChosenIsFalse(user.getId());
     }
 
     public List<OfferDTO> getMyOffers() {
