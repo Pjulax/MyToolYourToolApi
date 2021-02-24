@@ -19,4 +19,6 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     Optional<List<Reservation>> findByBorrower_IdAndFinishedIsFalse(Long borrowerId);
 
     Optional<List<Reservation>> findByOffer_IdAndChosenIsFalse(Long offerId);
+
+    Optional<Reservation> findByOffer_IdAndBorrower_Id(Long id, Long borrowerId);
 }

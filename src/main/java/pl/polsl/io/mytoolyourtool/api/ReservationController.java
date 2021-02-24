@@ -2,6 +2,8 @@ package pl.polsl.io.mytoolyourtool.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import pl.polsl.io.mytoolyourtool.api.dto.BorrowingCartReservationDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.LendingCartReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationService;
 
@@ -20,13 +22,13 @@ public class ReservationController {
     }
 
     @GetMapping(path="/my-loans")
-    public List<Reservation> getMyLendingCart()
+    public List<LendingCartReservationDTO> getMyLendingCart()
     {
         return reservationService.getMyLendingCart();
     }
 
     @GetMapping(path="/my-reservations")
-    public List<Reservation> getMyBorrowingCart()
+    public List<BorrowingCartReservationDTO> getMyBorrowingCart()
     {
         return reservationService.getMyBorrowingCart();
     }
@@ -40,5 +42,10 @@ public class ReservationController {
     @PostMapping(path="/choose-reservation/{id}")
     public void chooseReservation(@PathVariable("id") Long reservationId) {
         reservationService.chooseReservation(reservationId);
+    }
+
+    @PostMapping(path="/check-returned-reservation/{id}")
+    public void checkReturnedReservation(@PathVariable("id") Long reservationId) {
+        reservationService.checkReturnedReservation(reservationId);
     }
 }

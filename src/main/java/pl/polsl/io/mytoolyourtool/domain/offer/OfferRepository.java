@@ -13,4 +13,6 @@ public interface OfferRepository extends JpaRepository<Offer,Long> {
 
     @Query("SELECT o FROM Offer o WHERE o.lender.id=?1")
     List<Offer> findOffersByLenderId(Long lenderID);
+
+    List<Offer> findByLender_IdAndBorrowerReviewedIsTrueAndLenderReviewedIsTrue(Long lenderId);
 }
