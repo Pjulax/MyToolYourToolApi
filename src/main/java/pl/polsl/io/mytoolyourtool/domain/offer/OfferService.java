@@ -40,7 +40,7 @@ public class OfferService {
                     .borrowerReviewed(false)
                     .lenderReviewed(false)
                     .reservationChosen(false)
-                    .returned(true)
+                    .returned(false)
                     .build();
             offer = offerRepository.save(offer);
             category.getOffers().add(offer);
@@ -83,9 +83,9 @@ public class OfferService {
     public void deleteOffer(Long offerId) {
         Offer offer = offerRepository.findById(offerId)
                 .orElseThrow(()-> new EntityNotFoundException("Offer with id: "+ offerId + " does not exist."));
-        if(offer.isReservationChosen()|| !offer.isReturned())
+        if(offer.isReservationChosen())
         {
-            throw new IllegalArgumentException("Offer with id: "+offerId+" cannot be deleted.");
+            throw new IllegalArgumentException("Offer with id: "+offerId+" cannot be deleted as it is currently borrowed.");
         }
         Category category = categoryRepository.findByOffersContains(offer);
         category.getOffers().remove(offer);
