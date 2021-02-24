@@ -2,9 +2,7 @@ package pl.polsl.io.mytoolyourtool.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.io.mytoolyourtool.api.dto.LoginDTO;
-import pl.polsl.io.mytoolyourtool.api.dto.SignUpDTO;
-import pl.polsl.io.mytoolyourtool.api.dto.UserDetailsDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.*;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
@@ -41,4 +39,7 @@ public class UserController {
     public void deleteMyAccount() {
         userService.deleteUserAccount();
     }
+
+        @GetMapping(path = "/my-history")
+        public List<HistoryDTO>getHistory(){return userService.getHistory();}
 }

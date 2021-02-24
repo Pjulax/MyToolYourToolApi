@@ -6,9 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.polsl.io.mytoolyourtool.api.dto.LoginDTO;
-import pl.polsl.io.mytoolyourtool.api.dto.SignUpDTO;
-import pl.polsl.io.mytoolyourtool.api.dto.UserDetailsDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.*;
 import pl.polsl.io.mytoolyourtool.domain.category.Category;
 import pl.polsl.io.mytoolyourtool.domain.category.CategoryRepository;
 import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
@@ -23,6 +21,7 @@ import pl.polsl.io.mytoolyourtool.utils.security.jwt.JwtTokenProvider;
 import javax.persistence.EntityNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -142,5 +141,15 @@ public class UserService {
         usuń oferty -> powiązane z userem
         usuń użytkownika, jego oferty, jego oceny, jego rezerwacje
         */
+    }
+
+    public List<HistoryDTO> getHistory() {
+     User user = whoami();
+     List<Offer> offers = offerRepository.findByLender_IdAndReservationChosenIsFalseAndReturnedIsTrue(user.getId());
+     if(offers.isEmpty())
+     {
+         throw new EntityNotFoundException("User with id: "+user.getId()+" has no history.");
+     }
+     return offers.stream().map(HistoryDTO::fromDomain).collect(Collectors.toList());
     }
 }

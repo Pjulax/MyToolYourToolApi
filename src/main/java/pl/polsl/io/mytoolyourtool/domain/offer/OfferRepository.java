@@ -15,4 +15,6 @@ public interface OfferRepository extends JpaRepository<Offer,Long> {
     List<Offer> findOffersByLenderId(Long lenderID);
 
     List<Offer> findByLender_IdAndReservationChosenIsFalse(Long lenderId);
+
+    List<Offer> findByLender_IdAndReservationChosenIsFalseAndReturnedIsTrue(Long lenderId);
 }
