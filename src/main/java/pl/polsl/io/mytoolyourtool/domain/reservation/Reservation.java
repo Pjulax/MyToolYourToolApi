@@ -17,8 +17,6 @@ public class Reservation {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date startDate;
-    private Date endDate;
     @ManyToOne
     private User borrower;
     @ManyToOne

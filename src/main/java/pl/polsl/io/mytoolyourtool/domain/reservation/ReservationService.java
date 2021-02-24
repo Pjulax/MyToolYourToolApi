@@ -2,7 +2,6 @@ package pl.polsl.io.mytoolyourtool.domain.reservation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.polsl.io.mytoolyourtool.api.dto.AddReservationDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ChooseReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
 import pl.polsl.io.mytoolyourtool.domain.offer.OfferRepository;
@@ -31,20 +30,17 @@ public class ReservationService {
         return reservationRepository.findByBorrower_IdAndFinishedIsFalse(user.getId()).orElse( List.of() );
     }
 
-    public void addReservation(AddReservationDTO addReservationDTO) {
-        if (addReservationDTO.getEndDate() == null ||addReservationDTO.getStartDate() == null
-                || addReservationDTO.getOfferId() == null) {
+    public void addReservation(Long offerId) {
+        if (null == offerId) {
             throw new IllegalArgumentException("Provided bad data for new reservation.");
         }
             else {
                 User borrower = userService.whoami();
-                Optional<Offer> offer = offerRepository.findById(addReservationDTO.getOfferId());
+                Optional<Offer> offer = offerRepository.findById(offerId);
                 if(offer.isPresent())
                 {
                     Reservation reservation = Reservation.builder()
                             .borrower(borrower)
-                            .startDate(addReservationDTO.getStartDate())
-                            .endDate(addReservationDTO.getEndDate())
                             .offer(offer.get())
                             .isChosen(false)
                             .isFinished(false)
@@ -53,7 +49,7 @@ public class ReservationService {
                 }
                 else
                 {
-                    throw new EntityNotFoundException("Offer with id: "+ addReservationDTO.getOfferId()+" does not exist.");
+                    throw new EntityNotFoundException("Offer with id: " + offerId + " does not exist.");
                 }
             }
     }
