@@ -22,12 +22,12 @@ public class ReservationService {
 
     public List<Reservation> getMyLendingCart() {
         User user = userService.whoami();
-        return reservationRepository.findMyLoans(user.getId()).orElse( List.of() );
+        return reservationRepository.findByOffer_Lender_IdAndFinishedIsFalse(user.getId()).orElse( List.of() );
     }
 
     public List<Reservation> getMyBorrowingCart() {
         User user = userService.whoami();
-        return reservationRepository.findMyReservations(user.getId()).orElse( List.of() );
+        return reservationRepository.findByBorrower_IdAndFinishedIsFalse(user.getId()).orElse( List.of() );
     }
 
     public void addReservation(AddReservationDTO addReservationDTO) {

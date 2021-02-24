@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.AddReviewDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.AverageRatingDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.ReviewDTO;
+import pl.polsl.io.mytoolyourtool.domain.offer.OfferRepository;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReservationRepository reservationRepository;
+    private final OfferRepository offerRepository;
     private final UserService userService;
     private final UserRepository userRepository;
 
@@ -49,12 +51,18 @@ public class ReviewService {
                 reviewedUserId = reviewedReservation.getOffer().getLender().getId();
                 reviewedUser = userRepository.findById(reviewedUserId)
                                             .orElseThrow(() -> new EntityNotFoundException("User with id: " + reviewedUserId + " does not exist."));
+                reviewedReservation.getOffer().setLenderReviewed(true);
             } else {
                 //reviewer is  lender
                 reviewedUserId = reviewedReservation.getBorrower().getId();
                 reviewedUser = userRepository.findById(reviewedReservation.getBorrower().getId())
                                             .orElseThrow(() -> new EntityNotFoundException("User with id: " + reviewedUserId + " does not exist."));
+                reviewedReservation.getOffer().setBorrowerReviewed(true);
             }
+            if(reviewedReservation.getOffer().isLenderReviewed() && reviewedReservation.getOffer().isBorrowerReviewed())
+                reviewedReservation.setFinished(true);
+            reviewedReservation = reservationRepository.save(reviewedReservation);
+            offerRepository.save(reviewedReservation.getOffer());
 
             Review newReview = Review.builder()
                     .opinion(addReviewDTO.getOpinion())
