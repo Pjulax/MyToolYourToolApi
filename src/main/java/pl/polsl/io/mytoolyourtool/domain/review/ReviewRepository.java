@@ -11,5 +11,5 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Query("SELECT r from Review r where r.reviewedUser.id=?1")
     Optional<List<Review>> findByReviewedUserId(Long id);
 
-
+    Optional<List<Review>> findByReviewer_Id(Long id);
 }

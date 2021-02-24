@@ -9,6 +9,14 @@ import org.springframework.stereotype.Service;
 import pl.polsl.io.mytoolyourtool.api.dto.LoginDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.SignUpDTO;
 import pl.polsl.io.mytoolyourtool.api.dto.UserDetailsDTO;
+import pl.polsl.io.mytoolyourtool.domain.category.Category;
+import pl.polsl.io.mytoolyourtool.domain.category.CategoryRepository;
+import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
+import pl.polsl.io.mytoolyourtool.domain.offer.OfferRepository;
+import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
+import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationRepository;
+import pl.polsl.io.mytoolyourtool.domain.review.Review;
+import pl.polsl.io.mytoolyourtool.domain.review.ReviewRepository;
 import pl.polsl.io.mytoolyourtool.utils.exception.ObjectExistsException;
 import pl.polsl.io.mytoolyourtool.utils.security.jwt.JwtTokenProvider;
 
@@ -24,6 +32,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final CategoryRepository categoryRepository;
+    private final OfferRepository offerRepository;
+    private final ReservationRepository reservationRepository;
+    private final ReviewRepository reviewRepository;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -76,14 +88,59 @@ public class UserService {
     }
 
     public void deleteUserAccount() {
+        User user = whoami();
+
+        List<Offer> offers = offerRepository.findOffersByLenderId(user.getId());
+        for( Offer offer : offers)
+            if(!offer.isReturned() && offer.isReservationChosen())
+                throw new IllegalArgumentException("Cannot delete user with active lends");
+
+        List<Reservation> reservations = reservationRepository.findMyReservations(user.getId()).orElse(List.of());
+        for( Reservation reservation : reservations)
+            if(reservation.isChosen() && !reservation.isFinished())
+                throw new IllegalArgumentException("Cannot delete user with active borrows");
+        reservationRepository.deleteAll(reservations);
+
+        List<Reservation> reservationsOnMyOffers = reservationRepository.findMyLoans(user.getId()).orElse(List.of());
+        if( !reservationsOnMyOffers.isEmpty() )
+            reservationRepository.deleteAll(reservationsOnMyOffers);
+
+        List<Review> reviewsFromMe = reviewRepository.findByReviewer_Id(user.getId()).orElse(List.of());
+        User deleteDummyUser = userRepository.findByEmail("deleted@user.com").get();
+        for( Review review : reviewsFromMe)
+            review.setReviewer(deleteDummyUser);
+        if(!reviewsFromMe.isEmpty())
+            reviewRepository.saveAll(reviewsFromMe);
+
+        List<Review> reviewsToMe = reviewRepository.findByReviewedUserId(user.getId()).orElse(List.of());
+        if(!reviewsToMe.isEmpty())
+            reviewRepository.deleteAll(reviewsToMe);
+
+        List<Category> categories = categoryRepository.findAll();
+        for( int j = 0; j < categories.size(); j++ ){
+            List<Offer> innerOffers = categories.get(j).getOffers();
+            for( int i = 0; i < innerOffers.size(); i++ ) {
+                if( offers.contains(innerOffers.get(i)) ) {
+                    innerOffers.remove(i);
+                    i--;
+                }
+            }
+            categories.get(j).setOffers(innerOffers);
+        }
+        categoryRepository.saveAll(categories);
+
+        offerRepository.deleteAll(offers);
+
+        userRepository.delete(user);
+
         /*
         Wszystkie wypożyczenia muszą być zakończone
         Wszystkie rezerwacje muszą być zakończone
+        usuń cudze rezerwacje na twoich ofertach
         usuń oceny -> powiązane z userami -> ja reviewedUser -> delete, -> ja reviewer -> modyfikuj na usera "Deleted User"
         usuń ofertę z listy w kategorii -> category zawiera offers
         usuń oferty -> powiązane z userem
         usuń użytkownika, jego oferty, jego oceny, jego rezerwacje
         */
-
     }
 }

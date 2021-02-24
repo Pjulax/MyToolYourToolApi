@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Offer {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -23,8 +24,8 @@ public class Offer {
     @ManyToOne
     private User lender;
 
+    private boolean isReservationChosen;
+    private boolean isReturned;
     private boolean lenderReviewed;
     private boolean borrowerReviewed;
-    private boolean hasReservationChosen;
-    private boolean isReturned;
 }

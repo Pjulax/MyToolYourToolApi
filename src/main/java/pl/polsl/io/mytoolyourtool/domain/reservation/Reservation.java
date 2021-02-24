@@ -19,7 +19,7 @@ public class Reservation {
     private Long id;
     private Date startDate;
     private Date endDate;
-    @OneToOne
+    @ManyToOne
     private User borrower;
     @ManyToOne
     private Offer offer;

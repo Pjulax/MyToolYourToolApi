@@ -22,14 +22,14 @@ public class ReservationController {
         return "Hello at mytoolyourtool reservations api";
     }
 
-    @GetMapping(path="/my-loans", produces = "application/json")
-    public Optional<List<Reservation>> getMyLendingCart()
+    @GetMapping(path="/my-loans")
+    public List<Reservation> getMyLendingCart()
     {
         return reservationService.getMyLendingCart();
     }
 
-    @GetMapping(path="/my-reservations", produces="application/json")
-    public Optional<List<Reservation>> getMyBorrowingCart()
+    @GetMapping(path="/my-reservations")
+    public List<Reservation> getMyBorrowingCart()
     {
         return reservationService.getMyBorrowingCart();
     }
