@@ -32,8 +32,8 @@ public class ReservationController {
         return reservationService.getMyBorrowingCart();
     }
 
-    @PostMapping(path="/add-reservation/{id}")
-    public void addReservation(@PathVariable("id") Long offerId)
+    @PostMapping(path="/add-reservation/{offer-id}")
+    public void addReservation(@PathVariable("offer-id") Long offerId)
     {
         reservationService.addReservation(offerId);
     }
