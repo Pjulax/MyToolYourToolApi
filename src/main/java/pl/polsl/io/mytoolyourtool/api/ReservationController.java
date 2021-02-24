@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.io.mytoolyourtool.api.dto.AddReservationDTO;
+import pl.polsl.io.mytoolyourtool.api.dto.ChooseReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationService;
 
@@ -40,4 +41,8 @@ public class ReservationController {
         reservationService.addReservation(addReservationDTO);
     }
 
+    @PostMapping(path="/choose-reservation")
+    public void chooseReservation(@RequestBody ChooseReservationDTO chooseReservationDTO) {
+        reservationService.chooseReservation(chooseReservationDTO);
+    }
 }
