@@ -40,7 +40,7 @@ public class OfferService {
                     .borrowerReviewed(false)
                     .lenderReviewed(false)
                     .reservationChosen(false)
-                    .returned(false)
+                    .returned(true)
                     .build();
             offer = offerRepository.save(offer);
             category.getOffers().add(offer);
@@ -73,11 +73,22 @@ public class OfferService {
         String lendersName = offer.getLender().getFirstName()+" "+offer.getLender().getLastName();
 
         return new GetSpecificOfferDTO(offer.getId(),offer.getToolName(),offer.getDescription(),offer.getToolQuality(),averageRating,lendersName);
-
     }
 
 
     public List<String> getToolQualities() {
         return Arrays.stream(ToolQuality.values()).map(Enum::name).collect(Collectors.toList());
+    }
+
+    public void deleteOffer(Long offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(()-> new EntityNotFoundException("Offer with id: "+ offerId + " does not exist."));
+        if(offer.isReservationChosen()|| !offer.isReturned())
+        {
+            throw new IllegalArgumentException("Offer with id: "+offerId+" cannot be deleted.");
+        }
+        Category category = categoryRepository.findByOffersContains(offer);
+        category.getOffers().remove(offer);
+        offerRepository.delete(offer);
     }
 }

@@ -37,4 +37,6 @@ public class OfferController {
         return offerService.getToolQualities();
     }
 
+    @DeleteMapping(path = "/delete/{id}")
+    public void deleteOffer(@PathVariable("id")Long offerId){offerService.deleteOffer(offerId);}
 }
