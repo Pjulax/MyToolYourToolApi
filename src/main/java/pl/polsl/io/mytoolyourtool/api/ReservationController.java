@@ -1,14 +1,11 @@
 package pl.polsl.io.mytoolyourtool.api;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.io.mytoolyourtool.api.dto.AddReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.reservation.Reservation;
 import pl.polsl.io.mytoolyourtool.domain.reservation.ReservationService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -34,10 +31,14 @@ public class ReservationController {
         return reservationService.getMyBorrowingCart();
     }
 
-    @PostMapping(path="/add-reservation")
-    public void addReservation(@RequestBody AddReservationDTO addReservationDTO)
+    @PostMapping(path="/add-reservation/{offer-id}")
+    public void addReservation(@PathVariable("offer-id") Long offerId)
     {
-        reservationService.addReservation(addReservationDTO);
+        reservationService.addReservation(offerId);
     }
 
+    @PostMapping(path="/choose-reservation/{id}")
+    public void chooseReservation(@PathVariable("id") Long reservationId) {
+        reservationService.chooseReservation(reservationId);
+    }
 }

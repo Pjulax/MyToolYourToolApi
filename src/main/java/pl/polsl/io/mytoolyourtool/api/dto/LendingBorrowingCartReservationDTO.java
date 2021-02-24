@@ -7,8 +7,14 @@ import java.util.Date;
 
 @Getter
 @AllArgsConstructor
-public class AddReservationDTO {
+public class LendingBorrowingCartReservationDTO {
+    private final Long id;
     private final Date startDate;
     private final Date endDate;
-    private final Long offerId;
+
+    /*
+    flagi oddania, oceny (tylko jednostronnej? trzeba rozdzielić na dwa obiekty?),
+     */
+
+    private final boolean isChosen;
 }

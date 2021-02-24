@@ -2,7 +2,6 @@ package pl.polsl.io.mytoolyourtool.domain.reservation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.polsl.io.mytoolyourtool.api.dto.AddReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
 import pl.polsl.io.mytoolyourtool.domain.offer.OfferRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
@@ -22,28 +21,25 @@ public class ReservationService {
 
     public List<Reservation> getMyLendingCart() {
         User user = userService.whoami();
-        return reservationRepository.findMyLoans(user.getId()).orElse( List.of() );
+        return reservationRepository.findByOffer_Lender_IdAndFinishedIsFalse(user.getId()).orElse( List.of() );
     }
 
     public List<Reservation> getMyBorrowingCart() {
         User user = userService.whoami();
-        return reservationRepository.findMyReservations(user.getId()).orElse( List.of() );
+        return reservationRepository.findByBorrower_IdAndFinishedIsFalse(user.getId()).orElse( List.of() );
     }
 
-    public void addReservation(AddReservationDTO addReservationDTO) {
-        if (addReservationDTO.getEndDate() == null ||addReservationDTO.getStartDate() == null
-                || addReservationDTO.getOfferId() == null) {
+    public void addReservation(Long offerId) {
+        if (null == offerId) {
             throw new IllegalArgumentException("Provided bad data for new reservation.");
         }
             else {
                 User borrower = userService.whoami();
-                Optional<Offer> offer = offerRepository.findById(addReservationDTO.getOfferId());
+                Optional<Offer> offer = offerRepository.findById(offerId);
                 if(offer.isPresent())
                 {
                     Reservation reservation = Reservation.builder()
                             .borrower(borrower)
-                            .startDate(addReservationDTO.getStartDate())
-                            .endDate(addReservationDTO.getEndDate())
                             .offer(offer.get())
                             .isChosen(false)
                             .isFinished(false)
@@ -52,8 +48,20 @@ public class ReservationService {
                 }
                 else
                 {
-                    throw new EntityNotFoundException("Offer with id: "+ addReservationDTO.getOfferId()+" does not exist.");
+                    throw new EntityNotFoundException("Offer with id: " + offerId + " does not exist.");
                 }
             }
+    }
+
+    public void chooseReservation(Long reservationId) {
+        Reservation chosenReservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("Reservation with id:" + reservationId + " does not exist."));
+        chosenReservation.setChosen(true);
+        chosenReservation.getOffer().setReservationChosen(true);
+        Offer offer = offerRepository.save(chosenReservation.getOffer());
+        List<Reservation> notChosenReservations = reservationRepository.findByOffer_IdAndChosenIsFalse(offer.getId()).orElseThrow(() -> new IllegalArgumentException("Reservations or offer with id: " + offer.getId() + " does not exists."));
+        for(int i = 0; i < notChosenReservations.size(); i++) {
+            notChosenReservations.get(i).setFinished(true);
+        }
+        reservationRepository.saveAll(notChosenReservations);
     }
 }

@@ -14,4 +14,9 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     @Query("SELECT r FROM Reservation r where r.borrower.id=?1")
     Optional<List<Reservation>> findMyReservations(Long borrowerId);
 
+    Optional<List<Reservation>> findByOffer_Lender_IdAndFinishedIsFalse(Long lenderId);
+
+    Optional<List<Reservation>> findByBorrower_IdAndFinishedIsFalse(Long borrowerId);
+
+    Optional<List<Reservation>> findByOffer_IdAndChosenIsFalse(Long offerId);
 }
