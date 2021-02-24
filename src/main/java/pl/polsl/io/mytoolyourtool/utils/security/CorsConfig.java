@@ -15,11 +15,11 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/categories")
                         .allowedOrigins("http://localhost:3000")
-                        .allowedMethods("GET","POST")
+                        .allowedMethods("GET","POST","DELETE")
                         .maxAge(3600);
                 registry.addMapping("/**")
                         .allowedOrigins("*")
-                        .allowedMethods("GET","POST")
+                        .allowedMethods("GET","POST","DELETE")
                         .maxAge(3600);
             }
         };
