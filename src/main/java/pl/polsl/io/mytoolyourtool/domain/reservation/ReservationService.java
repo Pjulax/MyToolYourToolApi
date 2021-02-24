@@ -6,7 +6,6 @@ import pl.polsl.io.mytoolyourtool.api.dto.AddReservationDTO;
 import pl.polsl.io.mytoolyourtool.domain.offer.Offer;
 import pl.polsl.io.mytoolyourtool.domain.offer.OfferRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.User;
-import pl.polsl.io.mytoolyourtool.domain.user.UserRepository;
 import pl.polsl.io.mytoolyourtool.domain.user.UserService;
 
 import javax.persistence.EntityNotFoundException;
@@ -46,6 +45,8 @@ public class ReservationService {
                             .startDate(addReservationDTO.getStartDate())
                             .endDate(addReservationDTO.getEndDate())
                             .offer(offer.get())
+                            .isChosen(false)
+                            .isFinished(false)
                             .build();
                     reservationRepository.save(reservation);
                 }

@@ -37,6 +37,10 @@ public class OfferService {
                     .description(addOfferDTO.getDescription())
                     .toolQuality(addOfferDTO.getToolQuality())
                     .lender(userService.whoami())
+                    .borrowerReviewed(false)
+                    .lenderReviewed(false)
+                    .hasReservationChosen(false)
+                    .isReturned(false)
                     .build();
             offer = offerRepository.save(offer);
             category.getOffers().add(offer);
