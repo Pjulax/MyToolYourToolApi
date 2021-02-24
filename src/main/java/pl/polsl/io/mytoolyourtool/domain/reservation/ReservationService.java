@@ -20,14 +20,14 @@ public class ReservationService {
     private final OfferRepository offerRepository;
     private final UserService userService;
 
-    public Optional<List<Reservation>> getMyLendingCart() {
+    public List<Reservation> getMyLendingCart() {
         User user = userService.whoami();
-        return reservationRepository.findMyLoans(user.getId());
+        return reservationRepository.findMyLoans(user.getId()).orElse( List.of() );
     }
 
-    public Optional<List<Reservation>> getMyBorrowingCart() {
+    public List<Reservation> getMyBorrowingCart() {
         User user = userService.whoami();
-        return reservationRepository.findMyReservations(user.getId());
+        return reservationRepository.findMyReservations(user.getId()).orElse( List.of() );
     }
 
     public void addReservation(AddReservationDTO addReservationDTO) {

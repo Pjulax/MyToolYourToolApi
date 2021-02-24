@@ -39,7 +39,7 @@ public class OfferService {
                     .lender(userService.whoami())
                     .borrowerReviewed(false)
                     .lenderReviewed(false)
-                    .hasReservationChosen(false)
+                    .isReservationChosen(false)
                     .isReturned(false)
                     .build();
             offer = offerRepository.save(offer);
@@ -48,10 +48,13 @@ public class OfferService {
         }
     }
 
-    public List<OfferDTO> getMyOffers() {
+    public List<Offer> getMyOffersRaw() {
         User user = userService.whoami();
-        List<Offer> myOffers= offerRepository.findOffersByLenderId(user.getId());
+        return offerRepository.findOffersByLenderId(user.getId());
+    }
 
+    public List<OfferDTO> getMyOffers() {
+        List<Offer> myOffers = getMyOffersRaw();
         if(myOffers.isEmpty())
         {
             throw new EntityNotFoundException("User has no offers.");
