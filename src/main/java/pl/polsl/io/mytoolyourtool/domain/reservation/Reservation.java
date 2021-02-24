@@ -22,6 +22,6 @@ public class Reservation {
     @ManyToOne
     private Offer offer;
 
-    private boolean isChosen;
-    private boolean isFinished;
+    private boolean chosen;
+    private boolean finished;
 }

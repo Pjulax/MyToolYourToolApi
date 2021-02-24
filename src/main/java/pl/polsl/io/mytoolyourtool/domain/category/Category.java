@@ -17,6 +17,4 @@ public class Category {
     private String name;
     @OneToMany
     private List<Offer> offers;
-
-
 }

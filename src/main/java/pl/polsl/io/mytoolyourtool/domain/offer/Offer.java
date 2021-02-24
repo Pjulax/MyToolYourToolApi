@@ -24,8 +24,8 @@ public class Offer {
     @ManyToOne
     private User lender;
 
-    private boolean isReservationChosen;
-    private boolean isReturned;
+    private boolean reservationChosen;
+    private boolean returned;
     private boolean lenderReviewed;
     private boolean borrowerReviewed;
 }

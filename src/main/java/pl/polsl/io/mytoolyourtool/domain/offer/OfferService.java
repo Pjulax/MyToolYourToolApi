@@ -39,8 +39,8 @@ public class OfferService {
                     .lender(userService.whoami())
                     .borrowerReviewed(false)
                     .lenderReviewed(false)
-                    .isReservationChosen(false)
-                    .isReturned(false)
+                    .reservationChosen(false)
+                    .returned(false)
                     .build();
             offer = offerRepository.save(offer);
             category.getOffers().add(offer);
@@ -50,7 +50,7 @@ public class OfferService {
 
     public List<Offer> getMyOffersRaw() {
         User user = userService.whoami();
-        return offerRepository.findOffersByLenderId(user.getId());
+        return offerRepository.findByLender_IdAndBorrowerReviewedIsTrueAndLenderReviewedIsTrue(user.getId());
     }
 
     public List<OfferDTO> getMyOffers() {

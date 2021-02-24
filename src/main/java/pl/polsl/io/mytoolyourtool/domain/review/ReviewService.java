@@ -44,6 +44,9 @@ public class ReviewService {
             Reservation reviewedReservation = reservationRepository.findById(addReviewDTO.getReservationId())
                     .orElseThrow(() -> new EntityNotFoundException("Reservation with id: " + addReviewDTO.getReservationId() + " does not exist."));
 
+            if(!reviewedReservation.getOffer().isReturned())
+                throw new IllegalArgumentException("User cannot review while tool is not returned.");
+
             User reviewedUser;
             Long reviewedUserId;
             if (reviewer.getId().equals(reviewedReservation.getBorrower().getId())) {

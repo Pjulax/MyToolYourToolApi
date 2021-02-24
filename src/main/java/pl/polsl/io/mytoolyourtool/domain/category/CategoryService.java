@@ -33,6 +33,6 @@ public class CategoryService {
 
     public List<OfferDTO> getCategoryOffers(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Category with id: " + categoryId + " doesn't exists."));
-        return category.getOffers().stream().map(OfferDTO::fromDomain).collect(Collectors.toList());
+        return category.getOffers().stream().filter(o -> !o.isReservationChosen()).map(OfferDTO::fromDomain).collect(Collectors.toList());
     }
 }
