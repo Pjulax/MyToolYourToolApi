@@ -73,11 +73,22 @@ public class OfferService {
         String lendersName = offer.getLender().getFirstName()+" "+offer.getLender().getLastName();
 
         return new GetSpecificOfferDTO(offer.getId(),offer.getToolName(),offer.getDescription(),offer.getToolQuality(),averageRating,lendersName);
-
     }
 
 
     public List<String> getToolQualities() {
         return Arrays.stream(ToolQuality.values()).map(Enum::name).collect(Collectors.toList());
+    }
+
+    public void deleteOffer(Long offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(()-> new EntityNotFoundException("Offer with id: "+ offerId + " does not exist."));
+        if(offer.isReservationChosen())
+        {
+            throw new IllegalArgumentException("Offer with id: "+offerId+" cannot be deleted as it is currently borrowed.");
+        }
+        Category category = categoryRepository.findByOffersContains(offer);
+        category.getOffers().remove(offer);
+        offerRepository.delete(offer);
     }
 }
